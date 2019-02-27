@@ -20,7 +20,7 @@ function GameObject(obj) {
     (this.name = obj.name),
     (this.dimensions = obj.dimensions),
     (this.destroy = function() {
-      return `${this.name} was removed from the game.`;
+      return `${this.name} was removed from the game. at ${this.createdAt}`;
     });
 }
 
@@ -68,13 +68,23 @@ function Humanoid(obj) {
 
 function Villain(obj) {
   Humanoid.call(this, obj);
-  this.destruction = function() {
-    if (obj.healthPoints <= 0) {
+  (this.destruction = function() {
+    if (this.fighting() <= 0) {
       return this.destroy();
     } else {
       return `${this.name} is still alive`;
     }
-  };
+  }),
+    (this.getDamage = function() {
+      return Math.floor(Math.random() * 5) - 1;
+    }),
+    (this.fighting = function() {
+      let health = obj.healthPoints;
+
+      health -= this.getDamage();
+
+      return health;
+    });
 }
 
 function Hero(obj) {
@@ -132,7 +142,7 @@ const mrHero = new Hero({
     width: 2,
     height: 4
   },
-  healthPoints: 5,
+  healthPoints: 1,
   name: "Grifff",
   team: "Forest Kingdom",
   weapons: ["Bow", "small spoon"],
@@ -146,7 +156,7 @@ const mrVillian = new Villain({
     width: 2,
     height: 4
   },
-  healthPoints: 0,
+  healthPoints: 1,
   name: "joseph",
   team: "Forest Kingdom",
   weapons: ["Bow", "small spoon"],
@@ -164,6 +174,9 @@ console.log(archer.greet()); // Lilith offers a greeting in Elvish.
 console.log(mage.takeDamage()); // Bruce took damage.
 console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 console.log(mrVillian.destruction()); //
+console.log(mrHero.destruction());
+// console.log(mrVillian.getDamage());
+// console.log(mrVillian.fighting());
 
 // Stretch task:
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
