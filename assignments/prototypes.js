@@ -20,7 +20,7 @@ function GameObject(obj) {
     (this.name = obj.name),
     (this.dimensions = obj.dimensions),
     (this.destroy = function() {
-      return `${this.name} was removed from the game. at ${this.createdAt}`;
+      return `${this.name} was removed from the game at ${this.createdAt}`;
     });
 }
 
@@ -76,15 +76,30 @@ function Villain(obj) {
     }
   }),
     (this.getDamage = function() {
-      return Math.floor(Math.random() * 5) - 1;
+      return Math.floor(Math.random() * 25) - 1;
     }),
     (this.fighting = function() {
       let health = obj.healthPoints;
 
       health -= this.getDamage();
 
+      if (health > 0) {
+        console.log(`${this.name} has ${health} health left.`);
+      } else {
+        console.log(`${this.name} has no health left.`);
+      }
+
       return health;
-    });
+    }); //,
+  // (this.healthSaved = function() {
+  //   let health = obj.healthPoints;
+  //
+  //   return {
+  //     decrement: function() {
+  //       return --this.getDamage();
+  //     }
+  //   };
+  // });
 }
 
 function Hero(obj) {
@@ -142,8 +157,8 @@ const mrHero = new Hero({
     width: 2,
     height: 4
   },
-  healthPoints: 1,
-  name: "Grifff",
+  healthPoints: 15,
+  name: "the villian",
   team: "Forest Kingdom",
   weapons: ["Bow", "small spoon"],
   language: "whaha"
@@ -156,8 +171,8 @@ const mrVillian = new Villain({
     width: 2,
     height: 4
   },
-  healthPoints: 1,
-  name: "joseph",
+  healthPoints: 15,
+  name: "the hero",
   team: "Forest Kingdom",
   weapons: ["Bow", "small spoon"],
   language: "English"
@@ -173,6 +188,7 @@ console.log(archer.language); // Elvish
 console.log(archer.greet()); // Lilith offers a greeting in Elvish.
 console.log(mage.takeDamage()); // Bruce took damage.
 console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
+console.log(`--------- FIGHING BELOW-----------`);
 console.log(mrVillian.destruction()); //
 console.log(mrHero.destruction());
 // console.log(mrVillian.getDamage());
