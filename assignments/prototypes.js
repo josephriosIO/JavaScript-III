@@ -66,6 +66,21 @@ function Humanoid(obj) {
  * Instances of CharacterStats should have all of the same properties as GameObject.
  */
 
+function Villain(obj) {
+  Humanoid.call(this, obj);
+  this.destruction = function() {
+    if (obj.healthPoints <= 0) {
+      return this.destroy();
+    } else {
+      return `${this.name} is still alive`;
+    }
+  };
+}
+
+function Hero(obj) {
+  Villain.call(this, obj);
+}
+
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
 const mage = new Humanoid({
@@ -110,6 +125,34 @@ const archer = new Humanoid({
   language: "Elvish"
 });
 
+const mrHero = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 1,
+    width: 2,
+    height: 4
+  },
+  healthPoints: 5,
+  name: "Grifff",
+  team: "Forest Kingdom",
+  weapons: ["Bow", "small spoon"],
+  language: "whaha"
+});
+
+const mrVillian = new Villain({
+  createdAt: new Date(),
+  dimensions: {
+    length: 1,
+    width: 2,
+    height: 4
+  },
+  healthPoints: 0,
+  name: "joseph",
+  team: "Forest Kingdom",
+  weapons: ["Bow", "small spoon"],
+  language: "English"
+});
+
 console.log(mage.createdAt); // Today's date
 console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
 console.log(swordsman.healthPoints); // 15
@@ -120,6 +163,7 @@ console.log(archer.language); // Elvish
 console.log(archer.greet()); // Lilith offers a greeting in Elvish.
 console.log(mage.takeDamage()); // Bruce took damage.
 console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
+console.log(mrVillian.destruction()); //
 
 // Stretch task:
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
